@@ -5,6 +5,7 @@ export libfdk
 PATH = ""
 LIBPATH = ""
 LIBPATH_env = "LD_LIBRARY_PATH"
+LIBPATH_default = ""
 
 # Relative path to `libfdk`
 const libfdk_splitpath = ["lib", "libfdk-aac.so"]
@@ -24,11 +25,13 @@ const libfdk = "libfdk-aac.so.1"
 Open all libraries
 """
 function __init__()
-    global prefix = abspath(joinpath(@__DIR__, ".."))
+    global artifact_dir = abspath(artifact"libfdk_aac")
 
     # Initialize PATH and LIBPATH environment variable listings
     global PATH_list, LIBPATH_list
-    global libfdk_path = abspath(joinpath(artifact"libfdk_aac", libfdk_splitpath...))
+    # We first need to add to LIBPATH_list the libraries provided by Julia
+    append!(LIBPATH_list, [joinpath(Sys.BINDIR, Base.LIBDIR, "julia"), joinpath(Sys.BINDIR, Base.LIBDIR)])
+    global libfdk_path = normpath(joinpath(artifact_dir, libfdk_splitpath...))
 
     # Manually `dlopen()` this right now so that future invocations
     # of `ccall` with its `SONAME` will find this path immediately.
