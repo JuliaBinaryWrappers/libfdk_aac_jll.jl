@@ -2,7 +2,7 @@
 export libfdk
 
 JLLWrappers.@generate_wrapper_header("libfdk_aac")
-JLLWrappers.@declare_library_product(libfdk, "libfdk-aac.so.1")
+JLLWrappers.@declare_library_product(libfdk, "libfdk-aac.so.2")
 function __init__()
     JLLWrappers.@generate_init_header()
     JLLWrappers.@init_library_product(
